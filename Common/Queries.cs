@@ -16,6 +16,7 @@ namespace Common
                 
             Service.Add("ping", new PingPong());
             Service.Add("time", new Time());
+            Service.Add("chat", new Chat());
         }
 
         public static string ParseQuestion(string command)
@@ -33,12 +34,14 @@ namespace Common
 
         public static string ParseAnswer(string command)
         {
-            if (Service.ContainsKey(command))
+            string[] pytanie = command.Split(' ');
+
+            if (Service.ContainsKey(pytanie[0]))
             {
-                if (command == null)
+                if (pytanie[0] == null)
                     return command.ToUpper();
                 else
-                    return Service[command].Answer(command);
+                    return Service[pytanie[0]].Answer(command);
             }
             //return "Unknown service.";
             return command.ToUpper();

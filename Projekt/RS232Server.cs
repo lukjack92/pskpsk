@@ -45,7 +45,7 @@ namespace Projekt
                 portCOM.Close();
                 Console.WriteLine("Client RS232 - connection completed!");
             }
-            catch (IOException)
+            catch
             {
                 Console.WriteLine("No port RS232 " + portCOM.PortName);
                 Console.WriteLine("Server RS232 not started " + portCOM.PortName);
