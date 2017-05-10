@@ -12,11 +12,12 @@ namespace Common
 
         public static void Usluga()
         {
-            Service = new Dictionary<string, IService>();
-                
-            Service.Add("ping", new PingPong());
-            Service.Add("time", new Time());
-            Service.Add("chat", new Chat());
+            Service = new Dictionary<string, IService>
+            {
+                { "ping", new PingPong() },
+                { "time", new Time() },
+                { "chat", new Chat() }
+            };
         }
 
         public static string ParseQuestion(string command)
@@ -43,8 +44,8 @@ namespace Common
                 else
                     return Service[pytanie[0]].Answer(command);
             }
-            //return "Unknown service.";
-            return command.ToUpper();
+            return "The Server does't know this service. Services are {chat|time|ping}";
+            //return command.ToUpper();
         }
     }
 }

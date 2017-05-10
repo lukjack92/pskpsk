@@ -8,15 +8,71 @@ namespace Common
 {
     class Chat : IService
     {
+        public struct SenderAndMessage
+        {
+            public string Sender;
+            public string Message;
+        }
+
+        public static List<string> users = new List<string>();
+        public static Dictionary<string, List<SenderAndMessage>> msg = new Dictionary<string, List<SenderAndMessage>>();
+
         public string Answer(string command)
         {
-            string pytanie = command.Split(' ')[1];
-            string test = "nie";
-            Console.Write(pytanie.Count());
-            if (pytanie == "pobierz")
-                test = "chat pibierz:)";
+            string[] comm = command.Split(' ');
+            int count = comm.Count();
 
-            return test;
+            if (count == 1) return "chat options{ add {nick}| list | send {nick} {nick}| fetch {nick}}";
+
+            switch (comm[1])
+            {
+                case "add":
+                    if (count == 2)
+                    {
+                        return "Add nick {chat add [your nick]}";
+                    }
+                    else
+                    {
+                        if (users.Contains(comm[2]))
+                            return "The user " + comm[2] + " exists in the users list!";
+                        else
+                            users.Add(comm[2]);
+
+                        foreach (var item in users)
+                            Console.WriteLine(""+ item);
+
+                        return "Add user to list! Your nick [" + comm[2] + "]";
+                    }
+
+                case "list":
+                    if (users.Count() == 0)
+                        return "No users!";
+
+                    string UserList = string.Join("|",users);
+                        return UserList;
+                case "send":
+                    if (count == 2)
+                    {
+                        return "Add nick and msg {chat send [nick receiver] [your nick] [message]}";
+                    }
+
+                    if (count == 3)
+                    {
+                        return "Add your nick and msg {chat send NickReceiver [your nick] [message]}";
+                    }
+
+                    if (count == 4)
+                    {
+                        return "Add msg {chat send NickReceiver YourNick [message]}";
+                    }
+
+                    return "Message has been sent to [" + comm[2] + "]";
+                case "fetch":
+                    return "pobierz msg";
+
+                default:
+                    return "chat unknow command";
+            }
         }
 
         public string Question(string command)
