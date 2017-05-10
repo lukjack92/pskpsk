@@ -15,12 +15,13 @@ namespace Common
         }
 
         public static List<string> users = new List<string>();
-        public static Dictionary<string, List<SenderAndMessage>> msg = new Dictionary<string, List<SenderAndMessage>>();
+        public static Dictionary<string, List<SenderAndMessage>> email = new Dictionary<string, List<SenderAndMessage>>();
 
         public string Answer(string command)
         {
             string[] comm = command.Split(' ');
             int count = comm.Count();
+            string msg = string.Empty;
 
             if (count == 1) return "chat options{ add {nick}| list | send {nick} {nick}| fetch {nick}}";
 
@@ -28,9 +29,7 @@ namespace Common
             {
                 case "add":
                     if (count == 2)
-                    {
                         return "Add nick {chat add [your nick]}";
-                    }
                     else
                     {
                         if (users.Contains(comm[2]))
@@ -50,23 +49,32 @@ namespace Common
 
                     string UserList = string.Join("|",users);
                         return UserList;
+
                 case "send":
                     if (count == 2)
-                    {
                         return "Add nick and msg {chat send [nick receiver] [your nick] [message]}";
-                    }
-
                     if (count == 3)
-                    {
                         return "Add your nick and msg {chat send NickReceiver [your nick] [message]}";
-                    }
-
                     if (count == 4)
-                    {
                         return "Add msg {chat send NickReceiver YourNick [message]}";
+
+                    SenderAndMessage dane;
+
+                    for (int i = 4; i < comm.Length; i++)
+                        msg += comm[i] + " ";
+
+                    dane.Sender = comm[3];
+                    dane.Message = msg;
+
+                    email.Add(comm[2], new List<SenderAndMessage> {new SenderAndMessage() { Sender = comm[3], Message = msg}});
+
+                    foreach(SenderAndMessage item in email[comm[2]])
+                    {
+                        Console.Write(item.Message);
                     }
 
                     return "Message has been sent to [" + comm[2] + "]";
+
                 case "fetch":
                     return "pobierz msg";
 
