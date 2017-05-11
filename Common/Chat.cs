@@ -52,31 +52,52 @@ namespace Common
 
                 case "send":
                     if (count == 2)
-                        return "Add nick and msg {chat send [nick receiver] [your nick] [message]}";
+                        return "Add [nick] and [msg] - {chat send [NickReceiver] [YourNick] [message]}";
                     if (count == 3)
-                        return "Add your nick and msg {chat send NickReceiver [your nick] [message]}";
+                        return "Add [YourNick] and [msg] - {chat send NickReceiver [YourNick] [message]}";
                     if (count == 4)
-                        return "Add msg {chat send NickReceiver YourNick [message]}";
+                        return "Add [msg] {chat send ReceiverNick YourNick [message]}";
+
+                    string nickRevc = comm[2];
+                    string nickSend = comm[3];
+
+                    if (!users.Contains(nickRevc) || !users.Contains(nickSend)) return "Don't existing user [" + nickRevc + "] or [" + nickSend + "]!";
 
                     SenderAndMessage dane;
 
                     for (int i = 4; i < comm.Length; i++)
                         msg += comm[i] + " ";
 
-                    dane.Sender = comm[3];
+                    dane.Sender = nickRevc;
                     dane.Message = msg;
 
-                    email.Add(comm[2], new List<SenderAndMessage> {new SenderAndMessage() { Sender = comm[3], Message = msg}});
+                    email.Add(nickRevc, new List<SenderAndMessage> {new SenderAndMessage() { Sender = nickRevc, Message = msg}});
 
-                    foreach(SenderAndMessage item in email[comm[2]])
-                    {
-                        Console.Write(item.Message);
-                    }
+                    foreach(SenderAndMessage item in email[nickRevc])
+                        Console.Write("ds" + item.Message);
 
-                    return "Message has been sent to [" + comm[2] + "]";
+                    return "Message has been sent to [" + nickRevc + "]";
 
                 case "fetch":
-                    return "pobierz msg";
+                    if (count == 2)
+                        return "Add [YourNick] - {chat fetch [YourNick] }";
+
+                    string nick = comm[2];
+                    string message = "Message from ";
+
+                    if(email.ContainsKey(nick))
+                    {
+                        foreach (SenderAndMessage item in email[nick])
+                        {
+                            message += "["+item.Sender + "] ";
+                            message += item.Message;
+                        }
+                        email.Remove(nick);
+                        return message;
+                    }else
+                    {
+                        return "You don't have a message!";
+                    }
 
                 default:
                     return "chat unknow command";
