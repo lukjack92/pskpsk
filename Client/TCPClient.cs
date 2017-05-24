@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
@@ -26,7 +27,6 @@ namespace Client
             catch (SocketException)
             {
                 Console.WriteLine("Server is unavailable!!");
-                //Console.WriteLine("SocketException: {0}", e);
                 Console.ReadKey();
             }
         }
@@ -35,6 +35,7 @@ namespace Client
         {
             int size = 1024;
             byte[] msg;
+            Int32 bytes;
 
             while (true)
             {
@@ -52,9 +53,9 @@ namespace Client
                 stream.Write(msg, 0, msg.Length);
 
                 msg = new Byte[size];
-                String responseData = String.Empty;
+                string responseData = String.Empty;
 
-                Int32 bytes = stream.Read(msg, 0, msg.Length);
+                bytes = stream.Read(msg, 0, msg.Length);
                 responseData = System.Text.Encoding.ASCII.GetString(msg, 0, bytes);
                 Console.WriteLine("TCP <- {0}", responseData);
             }

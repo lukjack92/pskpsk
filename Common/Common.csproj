@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chat.cs" />
+    <Compile Include="Files.cs" />
     <Compile Include="IService.cs" />
     <Compile Include="PingPong.cs" />
     <Compile Include="Program.cs" />

@@ -18,6 +18,8 @@ namespace Client
             Console.WriteLine("1 - TCP");
             Console.WriteLine("2 - UDP");
             Console.WriteLine("3 - RS232");
+            Console.WriteLine("4 - FILE");
+
             Console.Write("Choice: ");
             int protocol = int.Parse(Console.ReadLine());
 
@@ -34,6 +36,10 @@ namespace Client
                 case 3:
                     RS232Client clientRS232 = new RS232Client("COM2");
                     clientRS232.QuestionAndAnswer();
+                    break;
+                case 4:
+                    FileClient clientFile = new FileClient(@"C:\CommunicationFile\");
+                    clientFile.QuestionAndAnswer();
                     break;
                 default:
                     Console.WriteLine("Bad choise");

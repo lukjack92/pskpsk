@@ -19,6 +19,7 @@ namespace Projekt
             TCPServer tcp = new TCPServer(12345);
             UDPServer udp = new UDPServer(12346);
             RS232Server rs232 = new RS232Server("COM1");
+            FileServer file = new FileServer(@"C:\CommunicationFile\"); 
         }
     }
 }

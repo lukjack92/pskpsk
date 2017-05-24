@@ -16,22 +16,23 @@ namespace Common
             {
                 { "ping", new PingPong() },
                 { "time", new Time() },
-                { "chat", new Chat() }
+                { "chat", new Chat() },
+                { "file", new Files() },
             };
         }
 
-        public static string ParseQuestion(string command)
-        {
-            if(Service.ContainsKey(command))
-            {
-                if (command == null)
-                    return command;
-                else
-                    return Service[command].Question(command);
-            }
-            //return "Unknown service.";
-            return command;
-        }
+        //public static string ParseQuestion(string command)
+        //{
+        //    if (Service.ContainsKey(command))
+        //    {
+        //        if (command == null)
+        //            return command;
+        //        else
+        //            return Service[command].Question(command);
+        //    }
+        //    //return "Unknown service.";
+        //    return command;
+        //}
 
         public static string ParseAnswer(string command)
         {
@@ -44,7 +45,7 @@ namespace Common
                 else
                     return Service[pytanie[0]].Answer(command);
             }
-            return "The Server does't know this service. Services are {chat|time|ping}";
+            return "The Server does't know this service. Services are { chat | time | ping | file }";
             //return command.ToUpper();
         }
     }
